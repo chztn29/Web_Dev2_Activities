@@ -11,6 +11,7 @@ class UserController extends Controller
     {
         $users = User::all();
         return view('index', compact('users'));
+        
     }
 
     public function createNewUser(Request $request)
@@ -27,24 +28,31 @@ class UserController extends Controller
         $addNew->password = $request->password;
         $addNew->save();
 
-        return back()->with('success', 'User added successfully!');
+        return redirect()->route('users.index')->with('success', 'User added successfully!');
     }
 
-    public function update(User $users, Request $request){
+    public function update(User $user, Request $request){
         $data = $request->validate([
             'name' => 'required|max:55',
-            'email' => 'required',
-            'password' => 'required|max:20'
+            'email' => 'required|email',
+            'password' => 'nullable|max:20'
         ]);
-
-        $users->update($data);
-
+    
+        if (!empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']); // don’t update password if left blank
+        }
+    
+        $user->update($data);
+    
         return back()->with('success', 'User Updated Successfully');
-
     }
+    
 
-    public function delete(User $users){
-        $users->delete();
+
+    public function delete(User $user){
+        $user->delete();
         return back()->with('success', 'User Deleted Successfully');
     }
 

@@ -17,11 +17,15 @@
         </div>
     @endif
 
+    <form method="POST" action="{{ route('auth.logout') }}" style="float:right;">
+    @csrf
+    <button type="submit" class="btn btn-danger">Logout</button>
+</form>
+
     <div class="d-flex justify-content-between mb-3">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewModal">
             Add New User
-        </button>
-        <a href="#" class="btn btn-danger">Logout</a>
+        </button>   
     </div>
 
     <div class="card shadow">
@@ -84,6 +88,13 @@
                                                     <label class="form-label">Email</label>
                                                     <input type="email" name="email" class="form-control" value="{{ $usr->email }}">
                                                     @error('email')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Password</label>
+                                                    <input type="password" name="password" class="form-control" value="{{ $usr->password }}" placeholder="Leave blank to keep current password">
+                                                    @error('password')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
