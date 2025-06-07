@@ -6,4 +6,6 @@ use App\Http\Controllers\StudentController;
 
 
 Route::get('/', [UserController::class, 'index']);
-Route::post('/create', [UserController::class, 'createNewUser'])->name(name: 'users.store');
+Route::post('/users', [UserController::class, 'createNewUser'])->name(name: 'users.store');
+Route::put('/users/{id}', [UserController::class, 'update'])->name(name: 'user.update');
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name(name: 'user.delete');

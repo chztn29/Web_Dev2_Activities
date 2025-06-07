@@ -18,7 +18,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|max:55',
             'email' => 'required',
-            'password' => 'required|max:20',
+            'password' => 'required|max:20'
         ]);
 
         $addNew = new User();
@@ -30,43 +30,22 @@ class UserController extends Controller
         return back()->with('success', 'User added successfully!');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function update(User $users, Request $request){
+        $data = $request->validate([
+            'name' => 'required|max:55',
+            'email' => 'required',
+            'password' => 'required|max:20'
+        ]);
+
+        $users->update($data);
+
+        return back()->with('success', 'User Updated Successfully');
+
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id) {
-        //
+    public function delete(User $users){
+        $users->delete();
+        return back()->with('success', 'User Deleted Successfully');
     }
 
 }
