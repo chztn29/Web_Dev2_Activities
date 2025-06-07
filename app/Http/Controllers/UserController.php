@@ -13,12 +13,21 @@ class UserController extends Controller
         return view('index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function createNewUser(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:55',
+            'email' => 'required',
+            'password' => 'required|max:20',
+        ]);
+
+        $addNew = new User();
+        $addNew->name = $request->name;
+        $addNew->email = $request->email;
+        $addNew->password = $request->password;
+        $addNew->save();
+
+        return back()->with('success', 'User added successfully!');
     }
 
     /**
